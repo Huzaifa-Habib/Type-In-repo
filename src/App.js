@@ -2,6 +2,7 @@ import './App.css';
 import {Route,Routes,Link,Navigate} from "react-router-dom"
 import Home from "./components/home/home"
 import Login from "./components/login/login"
+import Student from "./components/student-profile/student" 
 import {useState, useEffect} from "react"
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
@@ -46,6 +47,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login/>}/>
+          <Route path="/student-profile/student" element={<Student/>}/>
+
           <Route path="*" element={<Login/>}/>
 
 

@@ -19,6 +19,7 @@ import { collection, addDoc,getDocs,doc, onSnapshot,query,serverTimestamp
       } 
  from "firebase/firestore"; 
  import DeleteIcon from '@mui/icons-material/Delete';
+ import Login from "../student-profile/student"
 
 
 
@@ -68,13 +69,6 @@ function Home (){
 
       }) 
 
-    const [studentName, setStudentName] = useState(null)
-    const [father, setfather] = useState(null)
-    const [roll, setroll] = useState(null)
-    const [contact, setContact] = useState(null)
-    const [cnic, setCnic] = useState(null)
-    const [courseName, setCourseName] = useState(null)
-    const [studentClass, setStudentClass] = useState(null)
     
 
     
@@ -201,31 +195,6 @@ function Home (){
       }
 
 
-    const studentProfileHandler = async () =>{
-
-        try {
-            const docRef = await addDoc(collection(db, "classes"),{
-                studentName : studentName,
-                studentFather : father,
-                rollNumber : roll,
-                contact : contact,
-                CNIC : cnic,
-                Course : courseName,
-                Class : studentClass
-
-
-             
-              
-
-            });
-            console.log("Document written with ID: ", docRef.id);
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-        }
-
-    
-
 
 
           
@@ -295,7 +264,7 @@ function Home (){
                         </Modal>
 
                         {/* Student Profile */}
-
+{/* 
                         <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Create Student Profile</Button>
                             <Modal
                                 open={open}
@@ -349,9 +318,10 @@ function Home (){
                                         
                                 </Typography>
                                 </Box>
-                        </Modal>
+                        </Modal> */}
 
 
+                        <a href="../student-profile/student">Create Student Profile</a>
 
                         </Toolbar>
                     </AppBar>

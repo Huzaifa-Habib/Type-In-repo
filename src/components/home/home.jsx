@@ -67,6 +67,16 @@ function Home (){
         editingTiming: "",
 
       }) 
+
+    const [studentName, setStudentName] = useState(null)
+    const [father, setfather] = useState(null)
+    const [roll, setroll] = useState(null)
+    const [contact, setContact] = useState(null)
+    const [cnic, setCnic] = useState(null)
+    const [courseName, setCourseName] = useState(null)
+    const [studentClass, setStudentClass] = useState(null)
+    
+
     
 
 
@@ -169,12 +179,12 @@ function Home (){
         e.preventDefault();
     
         await updateDoc(doc(db, "classes", editing.editingId), {
-            // Class: editing.editingClass,
-            // section: editing.editingSec,
-            // Schedule: editing.editingSchedule,
+            Class: editing.editingClass,
+            section: editing.editingSec,
+            Schedule: editing.editingSchedule,
             Teacher: editing.editingTeacher,
-            // Batch: editing.editingBatch,
-            // ClassTiming: editing.editingClass,
+            Batch: editing.editingBatch,
+            ClassTiming: editing.editingTiming,
           
         });
     
@@ -189,6 +199,33 @@ function Home (){
           
         }) 
       }
+
+
+    const studentProfileHandler = async () =>{
+
+        try {
+            const docRef = await addDoc(collection(db, "classes"),{
+                studentName : studentName,
+                studentFather : father,
+                rollNumber : roll,
+                contact : contact,
+                CNIC : cnic,
+                Course : courseName,
+                Class : studentClass
+
+
+             
+              
+
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
+
+    
+
 
 
           
@@ -217,7 +254,7 @@ function Home (){
                             >
                                 <Box className='modal'>
                                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Add Class
+                                    Add Class details
                                 </Typography>
                                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                     
@@ -250,11 +287,72 @@ function Home (){
                                             setBatch(e.target.value)
                                             
                                         }} />  <br />
-                                        <Button variant="contained" type='submit' onClick={submitHandler} startIcon={<AddIcon />}>Add</Button>
+                                       <Button variant="contained" type='submit' onClick={submitHandler} startIcon={<AddIcon />}>Add</Button>
+
                                         
                                 </Typography>
                                 </Box>
                         </Modal>
+
+                        {/* Student Profile */}
+
+                        <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Create Student Profile</Button>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box className='modal'>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    Add Student details
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    
+                                        <input type="text" placeholder='Enter Name'
+                                        onChange={(e) =>{
+                                            setStudentName(e.target.value)
+                                            
+                                        }}/> <br />
+
+                                        <input type="text" placeholder='Enter Father Name'
+                                        onChange={(e) =>{
+                                            setfather(e.target.value)
+                                            
+                                        }}/> <br />
+        
+
+                                        <input type="text" placeholder="Ente Roll Number" onChange={(e) =>{
+                                            setroll(e.target.value)
+                                            
+                                        }} />  <br />
+                                        <input type="text" placeholder="Enter Contact Number"onChange={(e) =>{
+                                            setContact(e.target.value)
+                                            
+                                        }}  />  <br />
+                                        <input type="text" placeholder="Enter CNIC Number"onChange={(e) =>{
+                                            setCnic(e.target.value)
+                                            
+                                        }}  />  <br />
+                                        <input type="text" placeholder="Enter Course Name" onChange={(e) =>{
+                                            setCourseName(e.target.value)
+                                            
+                                        }} />  <br />
+
+                                        <input type="text" placeholder="Enter Class Name" onChange={(e) =>{
+                                            setStudentClass(e.target.value)
+                                            
+                                        }} />  <br />
+
+                                       <Button variant="contained" type='submit' onClick={studentProfileHandler} startIcon={<AddIcon />}>Add</Button>
+
+                                        
+                                </Typography>
+                                </Box>
+                        </Modal>
+
+
+
                         </Toolbar>
                     </AppBar>
                 </Box>
@@ -265,34 +363,109 @@ function Home (){
                          classes.map((eachPost,i) => (
                          <div className='displayClassDetails' key={i}>
                             <div className='heading'>
-                                <h1>{eachPost?.Class}</h1>
+                                <h1>{(eachPost.id === editing.editingId)?
+                                    <>
+                                        <input type="text" value={editing.editingClass} 
+                                        onChange = {(e) =>{
+                                        setEditing({...editing, editingClass: e.target.value})
+
+                                        }}/>
+                                        {/* <button type='submit' onClick={updatedPost}>Update</button> */}
+
+                                    </>
+
+                                        : eachPost?.Class}</h1> 
 
                             </div>
 
                             <div className='schedule'>
-                                <p>Schedule : <span>{eachPost?.Schedule}</span></p>
+                            <p>Class Schedule : {(eachPost.id === editing.editingId)?
+                                <>
+                                    <input type="text" value={editing.editingSchedule} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingSchedule: e.target.value})
+
+                                    }}/>
+                                    {/* <button type='submit' onClick={updatedPost}>Update</button> */}
+
+                                </>
+
+                                    : eachPost?.Schedule}</p> 
                             
                             </div>
 
-                            <div className='tlassTiming'>
-                                <p>Class Timing : <span>{eachPost?.ClassTiming}</span></p>
+                            <div className='classTiming'>
+                            <p>Class Timing : {(eachPost.id === editing.editingId)?
+                                <>
+                                    <input type="text" value={editing.editingTiming} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingTiming: e.target.value})
+
+                                    }}/>
+                                    {/* <button type='submit' onClick={updatedPost}>Update</button> */}
+
+                                </>
+
+                                    : eachPost?.ClassTiming}</p> 
                             
                             </div>
 
                             <div className='teacher'>
-                                <p>Teacher : <span>{eachPost?.Teacher}</span></p>
+                            <p>Teacher : {(eachPost.id === editing.editingId)?
+                                <>
+                                    <input type="text" value={editing.editingTeacher} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingTeacher: e.target.value})
+
+                                    }}/>
+
+                                </>
+
+                                    : eachPost?.Teacher}</p> 
+
+
+
+                               
                             
                             </div>
+
 
                             <div className='batch'>
-                                <p>Batch Number : <span>{eachPost?.Batch}</span></p>
+                            <p>Batch No. : {(eachPost.id === editing.editingId)?
+                                <>
+                                    <input type="text" value={editing.editingBatch} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingBatch: e.target.value})
+
+                                    }}/>
+
+                                </>
+
+                                    : eachPost?.Batch}</p> 
                             
                             </div>
 
+
                             <div className='sec'>
-                                <p>Section : <span>{eachPost?.section}</span></p>
-                            
+                            <p>Section : {(eachPost.id === editing.editingId)?
+                                <>
+                                    <input type="text" value={editing.editingSec} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingSec: e.target.value})
+
+                                    }}/>
+                                    <button type='submit' onClick={updatedPost}>Update</button>
+
+
+                                </>
+
+                                    : eachPost?.section}</p> 
                             </div>
+
+
+                       
+
+
                             <div className='btns'>
                                 <Button variant="outlined" startIcon={<DeleteIcon />}
                                 onClick={() =>{
@@ -305,33 +478,24 @@ function Home (){
                                     <button onClick={() => {
                                         setEditing({
                                             editingId : eachPost?.id,
-                                            editingClass: eachPost?.classCourse,
+                                            editingClass: eachPost?.Class,
                                             editingBatch: eachPost?.Batch,
-                                            editingSchedule: eachPost?.classSchedule,
-                                            editingTeacher: eachPost?.classTeacher,
-                                            editingSec: eachPost?.classSec,
-                                            editingTiming: eachPost?.classTiming,
+                                            editingSchedule: eachPost?.Schedule,
+                                            editingTeacher: eachPost?.Teacher,
+                                            editingSec: eachPost?.section,
+                                            editingTiming: eachPost?.ClassTiming,
                                        
                                     
                                         })
                                     }}>
+                                        Update Fields
 
                                      </button>}
 
 
                             </div>
 
-                            {(eachPost.id === editing.editingId)?
-                                <form onSubmit={updatedPost}>
-                                    <input type="text" value={editing.editingTeacher} 
-                                    onChange = {(e) =>{
-                                    setEditing({...editing, editingTeacher: e.target.value})
-
-                                    }}/>
-                                    <button type='submit'>Update</button>
-
-                                </form>
-                                    :eachPost?.Teacher}
+                           
 
 
 

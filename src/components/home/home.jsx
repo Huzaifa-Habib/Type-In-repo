@@ -98,12 +98,12 @@ function Home (){
         if(classCourse && classSec && classSchedule && classTeacher && batch && classTiming  !== null) {
         try {
             const docRef = await addDoc(collection(db, "classes"),{
-              Class: classCourse,
-              section : classSec,
-              Schedule : classSchedule,
-              Teacher : classTeacher,
-              Batch :batch,
-              ClassTiming : classTiming,
+              Class: classCourse.toLowerCase(),
+              section : classSec.toLowerCase(),
+              Schedule : classSchedule.toLowerCase(),
+              Teacher : classTeacher.toLowerCase(),
+              Batch :batch.toLowerCase(),
+              ClassTiming : classTiming.toLowerCase(),
               date: serverTimestamp()
               
 

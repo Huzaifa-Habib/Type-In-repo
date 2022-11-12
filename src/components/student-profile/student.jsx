@@ -63,7 +63,13 @@ function Student(){
     const [attendenceClass, setAttendenceClass] = useState(null)
     const [studentProfile, setStudentProfile] = useState(null)
     const [queryRoll, setQueryRoll] = useState(null)
+    const [classes, setClasses] = useState([])
+    const [className, setClassName] = useState([])
 
+
+
+
+   
 
 
 
@@ -73,13 +79,13 @@ function Student(){
 
         try {
             const docRef = await addDoc(collection(db, "Students Profile"),{
-                studentName : studentName,
-                studentFather : father,
-                rollNumber : roll,
-                contact : contact,
-                CNIC : cnic,
-                Course : courseName,
-                Class : studentClass
+                studentName : studentName.toLowerCase(),
+                studentFather : father.toLowerCase(),
+                rollNumber : roll.toLowerCase(),
+                contact : contact.toLowerCase(),
+                CNIC : cnic.toLowerCase(),
+                Course : courseName.toLowerCase(),
+                Class : studentClass.toLowerCase()
 
 
              
@@ -92,18 +98,70 @@ function Student(){
           }
         }
 
+
+        useEffect(() =>{
+
+            const getData = async () => {
+              const querySnapshot = await getDocs(collection(db, "classes"));
+              querySnapshot.forEach((doc) => {
+              console.log(`${doc.id} => `,doc.data());
+              setClasses((prev) =>{
+                let newArray = [...prev,doc.data()  ]
+                return(newArray)
+          
+              })
+            });
+          
+            }
+            // getData();
+            let unsubscribe = null
+            const realTimeData = async () =>{
+              const q = query(collection(db, "classes") ,orderBy("date", "desc"));
+              unsubscribe = onSnapshot(q, (querySnapshot) => {
+              const posts = [];
+              querySnapshot.forEach((doc) => {
+                posts.push({id:doc.id, ...doc.data()});
+            });
+          
+            // if (posts.length !== 0 ) {
+                console.log("Post", posts); 
+                setClasses(posts)
+                {  classes.map((eachPost,i) => (
+                    setClassName(eachPost.Class)
+                ))}
+
+          
+          
+              
+            // }
+            });
+            }
+          
+            realTimeData();
+            return () =>{
+              console.log("Clean up")
+              unsubscribe();
+            }
+            
+          },[])
+    
+
     const pageHandler = () =>{
         navigate("/")
 
     }
 
-    let input =  document.getElementById("input")
+
     const attendenceHandler = () =>{
 
-        if(input.value !== null){
+
+        const input =  document.getElementById("input")
+        if(input.value !== null ){
             let any = document.getElementById("class-div")
             any.style.display = "none"
+            // showDiv.style.display = "block"
             setAttendenceClass(input.value)
+            // console.log(classes.Class)
         }
 
     }
@@ -244,7 +302,8 @@ function Student(){
 
             </div>
             
-            <div className='show-div'>
+            <div id='show-div'>
+                
                 
                 <div className='course-heading'>
                     <h1>{attendenceClass}</h1>
@@ -259,13 +318,14 @@ function Student(){
                     }}
                      />
 
-                     <button onClick={getDataHandler}></button>
+
+                     <button onClick={getDataHandler}>Enter</button>
 
                 </div>
 
                 {
-                  studentProfile.map((eachPost,i) => (
-                    <div className='student-card'>
+                  studentProfile?.map((eachProfile,i) => (
+                    <div className='student-card' key={i}>
                     <Card sx={{ maxWidth: 345 }}>
                         <CardActionArea>
                             <CardMedia
@@ -276,11 +336,19 @@ function Student(){
                             />
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
+                                <h1>{eachProfile?.studentName}</h1>
                                 
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
+                                <p>Roll Number :{eachProfile?.rollNumber}</p>
+                                <p>Father Name :{eachProfile?.studentFather}</p>
+                                <p>CNIC :{eachProfile?.CNIC}</p>
+                                <p>Contact Number :{eachProfile?.contact}</p>
+                                <p>Course :{eachProfile?.Course}</p>
+                                <p>Class :{eachProfile?.Class}</p>
+
+
+                                
                             </Typography>
                             </CardContent>
                         </CardActionArea>

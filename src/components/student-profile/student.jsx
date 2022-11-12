@@ -126,9 +126,7 @@ function Student(){
             // if (posts.length !== 0 ) {
                 console.log("Post", posts); 
                 setClasses(posts)
-                {  classes.map((eachPost,i) => (
-                    setClassName(eachPost.Class)
-                ))}
+              
 
           
           
@@ -151,18 +149,27 @@ function Student(){
 
     }
 
+    const input =  document.getElementById("input")
 
     const attendenceHandler = () =>{
 
 
-        const input =  document.getElementById("input")
         if(input.value !== null ){
+            // {  classes.map((eachPost,i) => (
+            //     <>
+                
+            //     </>
+                
+            
+                 
+            //     ))}
             let any = document.getElementById("class-div")
             any.style.display = "none"
             // showDiv.style.display = "block"
             setAttendenceClass(input.value)
             // console.log(classes.Class)
         }
+
 
     }
 
@@ -172,7 +179,9 @@ function Student(){
         
     // Get Real-Time Data====================================================
     // useEffect(() =>{
-
+        if (input.value !== null) {
+            
+        
         const getData = async () => {
           const querySnapshot = await getDocs(collection(db, "Students Profile"));
           querySnapshot.forEach((doc) => {
@@ -216,6 +225,10 @@ function Student(){
 
 
       }
+      else{
+        alert("Enter Class First")
+      }
+    }
 
 
     
@@ -295,6 +308,8 @@ function Student(){
          <div className='body-div'>
             <div className='class' id='class-div'>
                 <h3>Enter Class Name For Attendence </h3>
+
+            
                 <input type="text" id='input'
                   />
 
@@ -325,6 +340,7 @@ function Student(){
 
                 {
                   studentProfile?.map((eachProfile,i) => (
+                    (eachProfile.Class == attendenceClass)?
                     <div className='student-card' key={i}>
                     <Card sx={{ maxWidth: 345 }}>
                         <CardActionArea>
@@ -339,6 +355,7 @@ function Student(){
                                 <h1>{eachProfile?.studentName}</h1>
                                 
                             </Typography>
+                            
                             <Typography variant="body2" color="text.secondary">
                                 <p>Roll Number :{eachProfile?.rollNumber}</p>
                                 <p>Father Name :{eachProfile?.studentFather}</p>
@@ -356,6 +373,11 @@ function Student(){
                     </Card>
 
                 </div>
+                :
+                <div key={i}>
+                    <h1>This is student doesn't exist in this course</h1>
+                </div>
+                
 
                   ))
                 

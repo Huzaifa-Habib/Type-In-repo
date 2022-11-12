@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import "./student.css"
 import { async } from '@firebase/util';
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, where } from "firebase/firestore";
 import { collection, addDoc,getDocs,doc, onSnapshot,query,serverTimestamp
         , orderBy, limit, deleteDoc,updateDoc,getDoc
       } 
@@ -61,6 +61,11 @@ function Student(){
     const [courseName, setCourseName] = useState(null)
     const [studentClass, setStudentClass] = useState(null)
     const [attendenceClass, setAttendenceClass] = useState(null)
+    const [studentProfile, setStudentProfile] = useState(null)
+    const [queryRoll, setQueryRoll] = useState(null)
+
+
+
 
 
     
@@ -92,13 +97,61 @@ function Student(){
 
     }
 
+    let input =  document.getElementById("input")
     const attendenceHandler = () =>{
-        if(attendenceClass !== null){
+
+        if(input.value !== null){
             let any = document.getElementById("class-div")
             any.style.display = "none"
+            setAttendenceClass(input.value)
         }
 
     }
+
+
+    // Get Real-Time Data====================================================
+    useEffect(() =>{
+
+        const getData = async () => {
+          const querySnapshot = await getDocs(collection(db, "Students Profile"), where("rollNumber", "==",input.value));
+          querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => `,doc.data());
+          setStudentProfile((prev) =>{
+            let newArray = [...prev,doc.data()  ]
+            return(newArray)
+      
+          })
+        });
+      
+        }
+        // getData();
+        let unsubscribe = null
+        const realTimeData = async () =>{
+          const q = query(collection(db, "Students Profile"));
+          unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const posts = [];
+          querySnapshot.forEach((doc) => {
+            posts.push({id:doc.id, ...doc.data()});
+            console.log(posts)
+        });
+      
+        // if (posts.length !== 0 ) {
+            console.log("Post", posts); 
+            setStudentProfile(posts)
+      
+      
+          
+        // }
+        });
+        }
+      
+        realTimeData();
+        return () =>{
+          console.log("Clean up")
+          unsubscribe();
+        }
+        
+      },[])
 
 
 
@@ -179,18 +232,57 @@ function Student(){
          <div className='body-div'>
             <div className='class' id='class-div'>
                 <h3>Enter Class Name For Attendence </h3>
-                <input type="text" onChange={(e) =>{
-                    setAttendenceClass(e.target.value)
-                }} />
+                <input type="text" id='input'
+                  />
 
                 <button onClick={attendenceHandler}>Submit</button>
 
             </div>
+            
+            <div className='show-div'>
+                
+                <div className='course-heading'>
+                    <h1>{attendenceClass}</h1>
 
-            <div className='course-heading'>
-                <h1>{attendenceClass}</h1>
+                </div>
+                <div className='roll-input'>
+                    <input type="text" placeholder='Enter Your roll Number'
+                    onChange={(e) =>{
+                        setQueryRoll(e.target.value)
+
+
+                    }}
+                     />
+
+                </div>
+
+                <div className='student-card'>
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardActionArea>
+                        <CardMedia
+                        component="img"
+                        height="140"
+                        image="/static/images/cards/contemplative-reptile.jpg"
+                        alt="green iguana"
+                        />
+                        <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Lizards are a widespread group of squamate reptiles, with over 6,000
+                            species, ranging across all continents except Antarctica
+                        </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    
+            </Card>
+
+                </div>
+
 
             </div>
+
 
          </div>
 

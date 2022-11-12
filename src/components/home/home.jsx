@@ -3,9 +3,11 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
 import {getAuth,createUserWithEmailAndPassword,onAuthStateChanged, signOut  } from "firebase/auth"
 import { useNavigate } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+
+import "./home.css"
 
 
 
@@ -27,6 +29,12 @@ function Home (){
 
     }
 
+    const modalHandler = () =>{
+
+        
+
+    }
+
 
 
     return(
@@ -39,18 +47,14 @@ function Home (){
                                 Attendence Portal
                             </Typography>
                             <Button color="inherit" onClick={logoutHandler}>Log Out</Button>
+                            <Button variant="outlined" className='modal-opener'>Add Class</Button>
                         </Toolbar>
                     </AppBar>
                 </Box>
             </div>
 
-            <div className='add-class'>
-                <form onClick={submitHandler}>
-                    
 
-                </form>
-                
-            </div>
+           
 
         </div>
 

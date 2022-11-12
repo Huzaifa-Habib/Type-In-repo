@@ -18,8 +18,11 @@ import { collection, addDoc,getDocs,doc, onSnapshot,query,serverTimestamp
         , orderBy, limit, deleteDoc,updateDoc,getDoc
       } 
  from "firebase/firestore"; 
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+ import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
+
 
  const firebaseConfig = {
         apiKey: "AIzaSyAdiCIB2HUruPfENbArNu0yaqBceTHPGbc",
@@ -53,7 +56,18 @@ function Home (){
     const [classSec, setClassSec] = useState(null)
     const [classCourse, setClassCourse] = useState(null)
     const [batch, setBatch] = useState(null)
-    const [classes, setClasses] = useState()
+    const [classes, setClasses] = useState([])
+    const [editing, setEditing] = useState({
+        editingId : null,
+        editingClass: "",
+        editingBatch: "",
+        editingSchedule: "",
+        editingTeacher: "",
+        editingSec: "",
+        editingTiming: "",
+
+      }) 
+    
 
 
 
@@ -85,7 +99,9 @@ function Home (){
               Schedule : classSchedule,
               Teacher : classTeacher,
               Batch :batch,
-              ClassTiming : classTiming
+              ClassTiming : classTiming,
+              date: serverTimestamp()
+              
 
             });
             console.log("Document written with ID: ", docRef.id);
@@ -100,10 +116,10 @@ function Home (){
         }
     }
 
-    // const deletePost = async (postId) => {
-    //     await deleteDoc(doc(db, "classes", postId))
+    const deletePost = async (postId) => {
+        await deleteDoc(doc(db, "classes", postId))
     
-    //   }
+      }
 
     useEffect(() =>{
 
@@ -122,7 +138,7 @@ function Home (){
         // getData();
         let unsubscribe = null
         const realTimeData = async () =>{
-          const q = query(collection(db, "classes"), orderBy("desc"));
+          const q = query(collection(db, "classes") ,orderBy("date", "desc"));
           unsubscribe = onSnapshot(q, (querySnapshot) => {
           const posts = [];
           querySnapshot.forEach((doc) => {
@@ -147,6 +163,33 @@ function Home (){
         }
         
       },[])
+
+
+      const updatedPost = async (e) =>{
+        e.preventDefault();
+    
+        await updateDoc(doc(db, "classes", editing.editingId), {
+            // Class: editing.editingClass,
+            // section: editing.editingSec,
+            // Schedule: editing.editingSchedule,
+            Teacher: editing.editingTeacher,
+            // Batch: editing.editingBatch,
+            // ClassTiming: editing.editingClass,
+          
+        });
+    
+        setEditing({
+            editingId : null,
+            editingClass: "",
+            editingBatch: "",
+            editingSchedule: "",
+            editingTeacher: "",
+            editingSec: "",
+            editingTiming: "",
+          
+        }) 
+      }
+
 
           
 
@@ -217,20 +260,90 @@ function Home (){
                 </Box>
             </div>
 
-            <div className='displayClass'>
+
                 {
                          classes.map((eachPost,i) => (
-                         <div>
-                            <p>{eachPost.Batch}</p>
+                         <div className='displayClassDetails' key={i}>
+                            <div className='heading'>
+                                <h1>{eachPost?.Class}</h1>
+
+                            </div>
+
+                            <div className='schedule'>
+                                <p>Schedule : <span>{eachPost?.Schedule}</span></p>
+                            
+                            </div>
+
+                            <div className='tlassTiming'>
+                                <p>Class Timing : <span>{eachPost?.ClassTiming}</span></p>
+                            
+                            </div>
+
+                            <div className='teacher'>
+                                <p>Teacher : <span>{eachPost?.Teacher}</span></p>
+                            
+                            </div>
+
+                            <div className='batch'>
+                                <p>Batch Number : <span>{eachPost?.Batch}</span></p>
+                            
+                            </div>
+
+                            <div className='sec'>
+                                <p>Section : <span>{eachPost?.section}</span></p>
+                            
+                            </div>
+                            <div className='btns'>
+                                <Button variant="outlined" startIcon={<DeleteIcon />}
+                                onClick={() =>{
+                                    deletePost(eachPost?.id)
+                                }}>
+                                    Delete Class Details</Button>
+
+                                {(editing.editingId === eachPost?.id)? null 
+                                    :
+                                    <button onClick={() => {
+                                        setEditing({
+                                            editingId : eachPost?.id,
+                                            editingClass: eachPost?.classCourse,
+                                            editingBatch: eachPost?.Batch,
+                                            editingSchedule: eachPost?.classSchedule,
+                                            editingTeacher: eachPost?.classTeacher,
+                                            editingSec: eachPost?.classSec,
+                                            editingTiming: eachPost?.classTiming,
+                                       
+                                    
+                                        })
+                                    }}>
+
+                                     </button>}
+
+
+                            </div>
+
+                            {(eachPost.id === editing.editingId)?
+                                <form onSubmit={updatedPost}>
+                                    <input type="text" value={editing.editingTeacher} 
+                                    onChange = {(e) =>{
+                                    setEditing({...editing, editingTeacher: e.target.value})
+
+                                    }}/>
+                                    <button type='submit'>Update</button>
+
+                                </form>
+                                    :eachPost?.Teacher}
+
+
 
                          </div>
 
-                         ))
-                }
+            
+                         ))}
+                
                 
 
                 
-            </div>
+           
 
 
       

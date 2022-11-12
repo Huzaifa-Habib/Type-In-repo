@@ -109,11 +109,14 @@ function Student(){
     }
 
 
+
+      const getDataHandler = () =>{
+        
     // Get Real-Time Data====================================================
-    useEffect(() =>{
+    // useEffect(() =>{
 
         const getData = async () => {
-          const querySnapshot = await getDocs(collection(db, "Students Profile"), where("rollNumber", "==",input.value));
+          const querySnapshot = await getDocs(collection(db, "Students Profile"));
           querySnapshot.forEach((doc) => {
           console.log(`${doc.id} => `,doc.data());
           setStudentProfile((prev) =>{
@@ -127,7 +130,7 @@ function Student(){
         // getData();
         let unsubscribe = null
         const realTimeData = async () =>{
-          const q = query(collection(db, "Students Profile"));
+          const q = query(collection(db, "Students Profile"), where("rollNumber", "==", queryRoll));
           unsubscribe = onSnapshot(q, (querySnapshot) => {
           const posts = [];
           querySnapshot.forEach((doc) => {
@@ -151,8 +154,10 @@ function Student(){
           unsubscribe();
         }
         
-      },[])
+    //   },[])
 
+
+      }
 
 
     
@@ -254,35 +259,50 @@ function Student(){
                     }}
                      />
 
-                </div>
-
-                <div className='student-card'>
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea>
-                        <CardMedia
-                        component="img"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        alt="green iguana"
-                        />
-                        <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                            species, ranging across all continents except Antarctica
-                        </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    
-            </Card>
+                     <button onClick={getDataHandler}></button>
 
                 </div>
+
+                {
+                  studentProfile.map((eachPost,i) => (
+                    <div className='student-card'>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <CardActionArea>
+                            <CardMedia
+                            component="img"
+                            height="140"
+                            image="/static/images/cards/contemplative-reptile.jpg"
+                            alt="green iguana"
+                            />
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Lizards are a widespread group of squamate reptiles, with over 6,000
+                                species, ranging across all continents except Antarctica
+                            </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        
+                    </Card>
+
+                </div>
+
+                  ))
+                
+                 }
+
+
+
+            
+
+              
 
 
             </div>
 
+        
 
          </div>
 

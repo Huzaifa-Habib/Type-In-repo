@@ -1,24 +1,77 @@
-import logo from './logo.svg';
 import './App.css';
+import {Route,Routes,Link,Navigate} from "react-router-dom"
+import Home from "./components/home/home"
+import Login from "./components/login/login"
+import {useState, useEffect} from "react"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  
+  useEffect(() => {
+
+    const auth = getAuth();
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+
+        const uid = user.uid;
+        console.log("auth change: login", user);
+        setIsLogin(true)
+
+      } else {
+        console.log("auth change: logout");
+        // User is signed out
+        setIsLogin(false)
+
+      }
+    });
+
+    return () => {
+      console.log("Cleanup function called")
+      unSubscribe();
+    }
+
+  }, [])
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     { (isLogin == true) ?
+      <div>
+        
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login/>}/>
+          <Route path="*" element={<Login/>}/>
+
+
+
+        </Routes>
+        
+    
+      </div>
+      :
+      <div>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="*" element={<Login/>}/>
+        </Routes>
+       
+
+
+
+      </div>
+      }
+
+
+
+      
     </div>
+      
   );
 }
 

@@ -1,6 +1,33 @@
-
+body{
+    overflow: hidden;
+}
+.main-div{
+    height: calc(100vh);
+    overflow: scroll;
+}
 .modal-opener{
     color: white !important;
     font-weight: bolder;
 
+}
+
+.modal{
+    width: 400;
+    background-color: white;
+    margin-top: 5%;
+    width: calc(50vw);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+    
+}
+
+#modal-modal-title{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    
 }

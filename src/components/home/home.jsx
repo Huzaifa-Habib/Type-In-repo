@@ -195,6 +195,10 @@ function Home (){
       }
 
 
+      const pageHandler = ()=>{
+        navigate("/student-profile/student")
+
+      }
 
 
           
@@ -320,8 +324,9 @@ function Home (){
                                 </Box>
                         </Modal> */}
 
+                            <Button variant="contained" onClick={pageHandler}>Add Student</Button>
 
-                        <a href="../student-profile/student">Create Student Profile</a>
+
 
                         </Toolbar>
                     </AppBar>

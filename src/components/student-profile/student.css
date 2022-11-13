@@ -1,5 +1,56 @@
 
+
+.nav{
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+
+}
+
 .course-heading{
     text-transform: capitalize;
     text-align: center;
 }
+
+#bodyy{
+    display: none;
+    margin-top: 100px;
+   
+}
+
+#show-div{
+    display: none;
+}
+
+#card{
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 0;
+}
+
+.first,.second,.third{
+    display: flex;
+    justify-content:space-between;
+    text-transform: capitalize;
+}
+
+.stu-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+
+}
+
+.stu-img img{
+    border-radius: 5px;
+}
+
+.stu-name{
+    text-align: center;
+    text-transform: capitalize;
+    border-bottom: 3px solid rgba(128, 128, 128, 0.295);
+}
+
+
+

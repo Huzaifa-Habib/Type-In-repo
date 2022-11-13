@@ -496,9 +496,10 @@ function Student(){
                                                             Dropdown button
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                            <li><a class="dropdown-item" href="#">Present</a></li>
+                                                            <li><a class="dropdown-item" href="#">Absent</a></li>
+                                                            <li><a class="dropdown-item" href="#">Leave</a></li>
+
                                                         </ul>
                                                     </div>
                    

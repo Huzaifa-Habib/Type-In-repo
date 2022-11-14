@@ -242,7 +242,7 @@ function Student(){
 
         if(input.value !== "" ){
             let any = document.getElementById("class-div")
-            any.style.display = "none"
+            // any.style.display = "none"
             showDiv.style.display = "block"
             setAttendenceClass(input.value.toLowerCase())
         }
@@ -349,7 +349,102 @@ function Student(){
         })
     }
 
-    let btn = document.getElementById("dropdownMenuButton1")
+
+    
+    const openDropHandler = () =>{
+        let dropdowna = document.querySelector(".dropdown")
+        dropdowna.style.display = "block"
+
+    }
+
+    const absentHandler = async (id) =>{
+        let verification = prompt("Enter Admin Email")
+        if (verification == auth.currentUser.email) {
+            let btn = document.getElementById("btn")
+            let absent = document.getElementById("absent")
+            btn.innerHTML = absent.innerHTML
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none" 
+
+            await updateDoc(doc(db, "Students Profile", id), {
+                AttendenceStatus: btn.innerHTML.toLowerCase()
+              });
+        }
+
+     
+
+        else{
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none"
+            alert("Invalid email")
+      
+        }
+      
+
+
+
+        
+
+
+    }
+
+    const leaveHandler = async (id) =>{
+        let verification = prompt("Enter Admin Email")
+        if (verification == auth.currentUser.email) {
+            
+            let btn = document.getElementById("btn")
+            let leave = document.getElementById("leave")
+            btn.innerHTML = leave.innerHTML
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none"
+            await updateDoc(doc(db, "Students Profile", id), {
+                AttendenceStatus: btn.innerHTML.toLowerCase()
+              });
+        }
+
+        else{
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none"
+            alert("Invalid email")
+        }
+
+
+        
+
+        
+
+    }
+
+    const presentHandler = async (id) =>{
+        let verification = prompt("Enter Admin Email")
+        if (verification == auth.currentUser.email) {
+            let btn = document.getElementById("btn")
+            let present = document.getElementById("present")
+            btn.innerHTML = present.innerHTML
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none"
+            await updateDoc(doc(db, "Students Profile", id), {
+                AttendenceStatus: btn.innerHTML.toLowerCase()
+              });
+            
+
+        }
+
+        else{
+            let dropdowna = document.querySelector(".dropdown")
+            dropdowna.style.display = "none"
+            alert("Invalid email")
+         
+        }
+
+
+        
+     
+
+        
+
+    }
+
 
 
        
@@ -375,7 +470,7 @@ function Student(){
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Attendence Portal
                     </Typography>
-                    <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Click Me</Button>
+                    <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Add Student</Button>
                     <Modal
                         open={open}
                         onClose={handleClose}
@@ -440,7 +535,7 @@ function Student(){
                 </Modal>
                 <Button variant="contained" onClick={markAttendenceHandler}>Mark Attendence</Button>
                 <Button variant="contained" type='submit' onClick={pageHandler}>Check Classes</Button>
-                <Button variant="contained" onClick={markAttendenceHandler}>Mark Attendence</Button>
+                {/* <Button variant="contained" onClick={markAttendenceHandler}>Mark Attendence</Button> */}
 
 
                     </Toolbar>
@@ -467,8 +562,10 @@ function Student(){
                     <h1>{attendenceClass}</h1>
 
                 </div>
-                <div className='roll-input'>
-                    <input type="text" placeholder='Enter Your roll Number' onClick={ resetValueHandler} id= "rollinput"
+                
+
+                      <div className='roll-input'>
+                    <input type="text" placeholder='Enter Your roll Number'  id= "rollinput"
                     onChange={(e) =>{
                         setQueryRoll(e.target.value)
 
@@ -481,6 +578,7 @@ function Student(){
                      <button onClick={getDataHandler}>Enter</button>
 
                 </div>
+                 
 
                 {
                   studentProfile?.map((eachProfile,i) => (
@@ -501,16 +599,18 @@ function Student(){
                                 <div className='stu-name'>
                                     <h1>{eachProfile?.studentName}</h1>  
                                     
-                                    {
-                                        classes.map((eachPost,i) => (
-                                            <div key={i}>
-                                                {(eachPost.Batch == "8")?
-                                                    <>
+                                    {/* {
+                                        classes.map((eachPost,i) => ( */}
+                                            
+                                                
+                                            
                                                     <div className='changeDrop'>
-                                                        <button>Present</button>
+                                                        <button onClick={openDropHandler} id="btn">Mark Attendence</button>
                                                         <div className='dropdown'>
-                                                            <p>Absent</p>
-                                                            <p>Leave</p>
+                                                            <p onClick={() => {absentHandler(eachProfile?.id)}} id="absent">Absent</p>
+                                                            <p onClick={() =>{leaveHandler(eachProfile?.id)}} id="leave">Leave</p>
+                                                            <p onClick={() =>{presentHandler(eachProfile?.id)}} id="present">Present</p>
+
                                                         </div>
                                                         
                             
@@ -518,14 +618,13 @@ function Student(){
                                           
                                                         
 
-                                                    </>
-                                                    :
-                                                    <h3>No</h3>
-                                                }
-                                            </div>
+                                                    
+                                                  
+                                                
+                                            
 
-                                        ))
-                                    }
+                                        {/* ))
+                                    } */}
 
 
                                 </div>
@@ -589,14 +688,15 @@ function Student(){
 
                 </div>
                 :
-                <div key={i}>
-                    <Stack sx={{ width: '100%' }} spacing={2}>
-                        <Alert severity="error">This Student doesn't exist in this course</Alert>
-                    </Stack>
+                // <div key={i}>
+                //     <Stack sx={{ width: '100%' }} spacing={2}>
+                //         <Alert severity="error">This Student doesn't exist in this course</Alert>
+                //     </Stack>
 
                  
 
-                </div>
+                // </div>
+                null
                 
 
                   ))

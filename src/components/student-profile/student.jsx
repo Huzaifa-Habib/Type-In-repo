@@ -27,8 +27,9 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Axios from "axios"
 import { Class } from '@mui/icons-material';
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-import{DropDown} from "bootstrap"
+// import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+// import{DropDown} from "bootstrap"
+
 
 
 
@@ -126,6 +127,9 @@ function Student(){
         editingClass : "",
      
     })
+
+    const [attendeceStatus, setAttendenceStatus] = useState("")
+
  
       
     
@@ -345,6 +349,17 @@ function Student(){
         })
     }
 
+    let btn = document.getElementById("dropdownMenuButton1")
+
+
+       
+        
+       
+        
+        
+
+
+
 
 
     
@@ -491,18 +506,18 @@ function Student(){
                                             <div key={i}>
                                                 {(eachPost.Batch == "8")?
                                                     <>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            Dropdown button
-                                                        </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="#">Present</a></li>
-                                                            <li><a class="dropdown-item" href="#">Absent</a></li>
-                                                            <li><a class="dropdown-item" href="#">Leave</a></li>
-
-                                                        </ul>
+                                                    <div className='changeDrop'>
+                                                        <button>Present</button>
+                                                        <div className='dropdown'>
+                                                            <p>Absent</p>
+                                                            <p>Leave</p>
+                                                        </div>
+                                                        
+                            
                                                     </div>
-                   
+                                          
+                                                        
+
                                                     </>
                                                     :
                                                     <h3>No</h3>

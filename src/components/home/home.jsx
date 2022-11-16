@@ -70,6 +70,9 @@ function Home (){
 
       }) 
 
+      const [studentProfile, setStudentProfile] = useState(null)
+
+
     
 
     
@@ -77,14 +80,20 @@ function Home (){
 
 
 
-    const logoutHandler = () =>{
+    const logoutHandler = async (id) =>{
+
+        await updateDoc(doc(db, "Students Profile", id), {
+            AttendenceStatus: ""
+          });
         const auth = getAuth();
 
-        signOut(auth).then(() => {
+        signOut(auth).then( () => {
             // Sign-out successful.
             console.log("signout successful");
             alert("You are successfully logout")
             navigate("/login")
+
+          
         
         }).catch((error) => {
             // An error happened.
@@ -169,6 +178,55 @@ function Home (){
         
       },[])
 
+    //   Student Profile data===================================================
+     useEffect(() =>{
+            
+        
+            const getData = async () => {
+              const querySnapshot = await getDocs(collection(db, "Students Profile"));
+              querySnapshot.forEach((doc) => {
+              console.log(`${doc.id} => `,doc.data());
+              setStudentProfile((prev) =>{
+                let newArray = [...prev,doc.data()  ]
+                return(newArray)
+          
+              })
+            });
+          
+            }
+            // getData();
+            let unsubscribe = null
+            const realTimeData = async () =>{
+              const q = query(collection(db, "Students Profile"),);
+              unsubscribe = onSnapshot(q, (querySnapshot) => {
+              const posts = [];
+              querySnapshot.forEach((doc) => {
+                posts.push({id:doc.id, ...doc.data()});
+                console.log(posts)
+            });
+          
+            // if (posts.length !== 0 ) {
+                console.log("Post", posts); 
+                setStudentProfile(posts)
+          
+          
+              
+            // }
+            });
+    
+            }
+          
+            realTimeData();
+            return () =>{
+              console.log("Clean up")
+              unsubscribe();
+            }
+            
+          },[])
+    
+
+
+
 
       const updatedPost = async (e) =>{
         e.preventDefault();
@@ -202,6 +260,8 @@ function Home (){
       }
 
 
+
+
           
 
 
@@ -218,7 +278,14 @@ function Home (){
                             <Typography className='logo' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 Attendence Portal
                             </Typography>
-                            <Button color="inherit" className='app-btn-one' onClick={logoutHandler}>Log Out</Button>
+                            {/* { studentProfile?.map((eachProfile,i) => ( */}
+                                <>
+                                  <Button color="inherit" className='app-btn-one' onClick={logoutHandler}>Log Out</Button>
+                                
+                                </>
+                               
+                            {/* ))} */}
+                          
                             <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Add Class</Button>
                             <Modal
                                 open={open}
@@ -269,7 +336,7 @@ function Home (){
                         </Modal>
 
  
-                            <Button variant="outlined" onClick={pageHandler} className = "app-btn-three" >Add Student</Button>
+                            <Button  onClick={pageHandler} className = "app-btn-three" >Add Student</Button>
 
 
 

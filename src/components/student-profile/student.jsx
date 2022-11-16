@@ -353,8 +353,19 @@ function Student(){
     
     const openDropHandler = () =>{
         let dropdowna = document.querySelector(".dropdown")
-        dropdowna.style.display = "block"
+        dropdowna.style.display = "none"
+        if ( dropdowna.style.display = "none") {
+            dropdowna.style.display = "block"
+            
+        }
+        else if ( dropdowna.style.display = "block") {
+            dropdowna.style.display = "none"
+            
+        }
 
+
+
+       
     }
 
     const absentHandler = async (id) =>{
@@ -434,6 +445,9 @@ function Student(){
             let dropdowna = document.querySelector(".dropdown")
             dropdowna.style.display = "none"
             alert("Invalid email")
+            // await updateDoc(doc(db, "Students Profile", id), {
+            //     AttendenceStatus: ""
+            //   });
          
         }
 
@@ -442,6 +456,11 @@ function Student(){
      
 
         
+
+    }
+
+    const homePageHandler = () =>{
+        navigate("/")
 
     }
 
@@ -467,7 +486,7 @@ function Student(){
                 <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={homePageHandler}>
                         Attendence Portal
                     </Typography>
                     <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Add Student</Button>
@@ -605,6 +624,19 @@ function Student(){
                                                 
                                             
                                                     <div className='changeDrop'>
+                                                        {(eachProfile.AttendenceStatus !== "" )?
+                                                        <>
+                                                        <button onClick={openDropHandler} id="btn">Present</button>
+                                                        <div className='dropdown'>
+                                                            <p onClick={() => {absentHandler(eachProfile?.id)}} id="absent">Absent</p>
+                                                            <p onClick={() =>{leaveHandler(eachProfile?.id)}} id="leave">Leave</p>
+                                                            {/* <p onClick={() =>{presentHandler(eachProfile?.id)}} id="present">Present</p> */}
+
+                                                        </div>
+                                                        </>
+
+                                                        :
+                                                        <>
                                                         <button onClick={openDropHandler} id="btn">Mark Attendence</button>
                                                         <div className='dropdown'>
                                                             <p onClick={() => {absentHandler(eachProfile?.id)}} id="absent">Absent</p>
@@ -612,6 +644,9 @@ function Student(){
                                                             <p onClick={() =>{presentHandler(eachProfile?.id)}} id="present">Present</p>
 
                                                         </div>
+                                                        </>
+
+                                                        }
                                                         
                             
                                                     </div>

@@ -662,6 +662,14 @@ function Student(){
 
                                 </div>
                                 {/* {console.log("asdadsdasadsds"+preClassName)} */}
+                                <div className='fourth'>
+                                    {(eachProfile.previousClass ==  "")? null:
+                                    <p>Previos Class: {eachProfile.previousClass }</p>
+
+                                    
+                                    }
+
+                                </div>
                                
                                 
                               
@@ -688,18 +696,18 @@ function Student(){
 
                 </div>
                 :
-                // <div key={i}>
-                //     <Stack sx={{ width: '100%' }} spacing={2}>
-                //         <Alert severity="error">This Student doesn't exist in this course</Alert>
-                //     </Stack>
+                <div key={i}>
+                    {alert("assdadsa")}
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert severity="error">This Student doesn't exist in this course</Alert>
+                    </Stack>
 
                  
 
-                // </div>
-                null
-                
+                </div>
 
                   ))
+                  
                 
                  }
 

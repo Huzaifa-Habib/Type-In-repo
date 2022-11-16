@@ -20,6 +20,7 @@ import { collection, addDoc,getDocs,doc, onSnapshot,query,serverTimestamp
  from "firebase/firestore"; 
  import DeleteIcon from '@mui/icons-material/Delete';
  import Login from "../student-profile/student"
+ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 
 
@@ -214,10 +215,10 @@ function Home (){
                 <Box sx={{ flexGrow: 1 }}>
                      <AppBar position="static">
                         <Toolbar>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            <Typography className='logo' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 Attendence Portal
                             </Typography>
-                            <Button color="inherit" onClick={logoutHandler}>Log Out</Button>
+                            <Button color="inherit" className='app-btn-one' onClick={logoutHandler}>Log Out</Button>
                             <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Add Class</Button>
                             <Modal
                                 open={open}
@@ -260,71 +261,15 @@ function Home (){
                                             setBatch(e.target.value)
                                             
                                         }} />  <br />
-                                       <Button variant="contained" type='submit' onClick={submitHandler} startIcon={<AddIcon />}>Add</Button>
+                                       <Button variant="contained" className = "add-btn" type='submit' onClick={submitHandler} startIcon={<AddIcon />}>Add</Button>
 
                                         
                                 </Typography>
                                 </Box>
                         </Modal>
 
-                        {/* Student Profile */}
-{/* 
-                        <Button variant="outlined" className='modal-opener' onClick={handleOpen}>Create Student Profile</Button>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box className='modal'>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Add Student details
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    
-                                        <input type="text" placeholder='Enter Name'
-                                        onChange={(e) =>{
-                                            setStudentName(e.target.value)
-                                            
-                                        }}/> <br />
-
-                                        <input type="text" placeholder='Enter Father Name'
-                                        onChange={(e) =>{
-                                            setfather(e.target.value)
-                                            
-                                        }}/> <br />
-        
-
-                                        <input type="text" placeholder="Ente Roll Number" onChange={(e) =>{
-                                            setroll(e.target.value)
-                                            
-                                        }} />  <br />
-                                        <input type="text" placeholder="Enter Contact Number"onChange={(e) =>{
-                                            setContact(e.target.value)
-                                            
-                                        }}  />  <br />
-                                        <input type="text" placeholder="Enter CNIC Number"onChange={(e) =>{
-                                            setCnic(e.target.value)
-                                            
-                                        }}  />  <br />
-                                        <input type="text" placeholder="Enter Course Name" onChange={(e) =>{
-                                            setCourseName(e.target.value)
-                                            
-                                        }} />  <br />
-
-                                        <input type="text" placeholder="Enter Class Name" onChange={(e) =>{
-                                            setStudentClass(e.target.value)
-                                            
-                                        }} />  <br />
-
-                                       <Button variant="contained" type='submit' onClick={studentProfileHandler} startIcon={<AddIcon />}>Add</Button>
-
-                                        
-                                </Typography>
-                                </Box>
-                        </Modal> */}
-
-                            <Button variant="contained" onClick={pageHandler}>Add Student</Button>
+ 
+                            <Button variant="outlined" onClick={pageHandler} className = "app-btn-three" >Add Student</Button>
 
 
 
@@ -446,11 +391,11 @@ function Home (){
                                 onClick={() =>{
                                     deletePost(eachPost?.id)
                                 }}>
-                                    Delete Class Details</Button>
+                                    Delete Class</Button>
 
                                 {(editing.editingId === eachPost?.id)? null 
                                     :
-                                    <button onClick={() => {
+                                    <Button variant="outlined"  startIcon={<ModeEditIcon />} onClick={() => {
                                         setEditing({
                                             editingId : eachPost?.id,
                                             editingClass: eachPost?.Class,
@@ -465,7 +410,7 @@ function Home (){
                                     }}>
                                         Update Fields
 
-                                     </button>}
+                                     </Button>}
 
 
                             </div>

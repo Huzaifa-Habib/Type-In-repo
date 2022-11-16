@@ -22,8 +22,21 @@ body{
     padding-left: 10px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-bottom: 10px;
     
-    
+
+}
+
+.modal input{
+    width: 90%;
+    padding: 10px 3px;
+    border: 1px solid rgba(30, 143, 255, 0.24);
+    margin-top: 8px;
+    border-radius: 10px;
+}
+
+.modal input:focus{
+    outline: 1px solid dodgerblue;
 }
 
 #modal-modal-title{
@@ -31,6 +44,14 @@ body{
     font-weight: bold;
     text-transform: uppercase;
     
+}
+
+.add-btn{
+    margin-top: 20px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 50px;
 }
 
 .displayClassDetails{
@@ -42,6 +63,7 @@ body{
     padding-left: 10px;
     border-radius: 10px;
     padding-right: 10px;
+    padding-bottom: 10px;
 
 
 }
@@ -55,8 +77,90 @@ body{
 
 .displayClassDetails p{
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .displayClassDetails span{
     text-transform: capitalize;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    
+    
+}
+
+.app-btn-one,.app-btn-three,.modal-opener{
+    color: snow;
+   
+}
+
+@media screen and (max-width:700px) {
+    .displayClassDetails{
+        width: calc(60vw);
+
+    }
+    
+}
+
+
+@media screen and (max-width:600px) {
+    .displayClassDetails{
+        width: calc(80vw);
+
+    }
+
+    .logo{
+        font-size: 14px;
+    }
+
+    .app-btn-one,.app-btn-three,.modal-opener{
+        font-size: 10px;
+        padding: 0px;
+        padding: 5px 6px;
+    }
+
+    .modal{
+        width: calc(80vw);
+    }
+    
+}
+
+
+@media screen and (max-width:450px) {
+    .displayClassDetails{
+        width: calc(95vw);
+    }
+
+    .logo{
+        font-size: 12px;
+    }
+
+    .app-btn-one,.app-btn-three,.modal-opener{
+        padding: 5px 3px;
+    }
+
+
+    
+
+}
+
+@media screen and (max-width:370px) {
+    .btns button{
+        font-size: 12px;
+        padding: 4px 8px;
+
+    }
+    .app-btn-one,.app-btn-three,.modal-opener{
+        padding: 5px 0px;
+        font-size: 8px;
+    }
+    .logo{
+        margin: 0px;
+        padding: 0px;
+        font-size: 11px;
+    }
+
 }

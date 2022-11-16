@@ -80,11 +80,9 @@ function Home (){
 
 
 
-    const logoutHandler = async (id) =>{
+    const logoutHandler = () =>{
 
-        await updateDoc(doc(db, "Students Profile", id), {
-            AttendenceStatus: ""
-          });
+        
         const auth = getAuth();
 
         signOut(auth).then( () => {

@@ -697,14 +697,16 @@ function Student(){
                 </div>
                 :
                 <div key={i}>
-                    {alert("assdadsa")}
+                    {/* {alert("assdadsa")}
                     <Stack sx={{ width: '100%' }} spacing={2}>
                         <Alert severity="error">This Student doesn't exist in this course</Alert>
-                    </Stack>
+                    </Stack> */}
+                    {null}
 
                  
 
                 </div>
+            
 
                   ))
                   
